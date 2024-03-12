@@ -29,6 +29,7 @@ sudo mkdir -p /volume/couchdb/config
 sudo mkdir -p /volume/eventstore/logs
 sudo mkdir -p /volume/eventstore/data
 sudo mkdir -p /volume/eventstore/index
+sudo mkdir -p /volume/eventstore/certs
 
 # sudo mkdir -p /volume/elastic/data
 sudo mkdir -p /volume/elastic/data01
@@ -60,24 +61,24 @@ git submodule update --remote
 
 docker-compose -f couchdb.yml \
                -f nats.yml \
-               -f eventstore.yml \
+               -f esdb.yml \
                -f redis.yml \
                -f rabbitmq.yml \
-               -f jaeger.yml \
-               -f postgres.yml \
-               -f wireshark.yml \
                -f networks.yml \
                down
 
 docker-compose -f couchdb.yml \
                -f nats.yml \
-               -f eventstore.yml \
+               -f esdb.yml \
                -f redis.yml \
                -f rabbitmq.yml \
-               -f jaeger.yml \
-               -f postgres.yml \
-               -f wireshark.yml \
                -f networks.yml \
                up --build $1 
 
+sleep 2s
+
+sudo cp /volume/eventstore/certs/ca/ca.crt /usr/local/share/ca-certificates/eventstore.crt
+sudo openssl x509 -in /volume/eventstore/certs/ca/ca.crt -out /usr/local/share/ca-certificates/eventstore.pem
+
+sudo update-ca-certificates
 
