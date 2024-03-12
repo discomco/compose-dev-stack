@@ -61,7 +61,7 @@ git submodule update --remote
 
 docker-compose -f couchdb.yml \
                -f nats.yml \
-               -f esdb.yml \
+               -f esdb-from-docs.yml \
                -f redis.yml \
                -f rabbitmq.yml \
                -f networks.yml \
@@ -69,7 +69,7 @@ docker-compose -f couchdb.yml \
 
 docker-compose -f couchdb.yml \
                -f nats.yml \
-               -f esdb.yml \
+               -f esdb-from-docs.yml \
                -f redis.yml \
                -f rabbitmq.yml \
                -f networks.yml \
